@@ -1,82 +1,81 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zabbix 监控仪表板 - 主机页面</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Zabbix Dashboard - Hosts</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <!-- 头部 -->
-        <header class="header">
-            <div class="logo">
-                <h1>📊 Zabbix 监控仪表板</h1>
-            </div>
-            <nav class="navigation">
-                <a href="index.html">汇总页面</a>
-                <a href="hosts.html" class="active">主机页面</a>
-            </nav>
-        </header>
-
-        <!-- 搜索和筛选 -->
-        <section class="filters-section">
-            <div class="search-box">
-                <input type="text" id="host-search" placeholder="搜索主机...">
-                <button id="search-btn">搜索</button>
-            </div>
-            <div class="filter-options">
-                <select id="group-filter">
-                    <option value="">所有主机组</option>
-                </select>
-                <select id="status-filter">
-                    <option value="">所有状态</option>
-                    <option value="0">已启用</option>
-                    <option value="1">已禁用</option>
-                </select>
-            </div>
-        </section>
-
-        <!-- 主机列表 -->
-        <section class="hosts-section">
-            <h2>主机列表</h2>
-            <div class="hosts-grid" id="hosts-grid">
-                <!-- 主机卡片将通过JavaScript动态生成 -->
-            </div>
-        </section>
-
-        <!-- 分页 -->
-        <section class="pagination-section">
-            <div class="pagination" id="pagination">
-                <!-- 分页按钮将通过JavaScript动态生成 -->
-            </div>
-        </section>
-
-        <!-- 主机详情模态框 -->
-        <div class="modal" id="host-modal">
-            <div class="modal-content">
-                <span class="close" id="close-modal">&times;</span>
-                <h2 id="modal-title">主机详情</h2>
-                <div id="host-details">
-                    <!-- 主机详细信息将通过JavaScript动态填充 -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-chart-network"></i>
+            <h3>Zabbix Dashboard</h3>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html"><i class="fas fa-home"></i> Overview</a></li>
+            <li class="active"><a href="#"><i class="fas fa-server"></i> Hosts</a></li>
+            <li><a href="#"><i class="fas fa-chart-bar"></i> Reports</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+    
+    <div class="main-content">
+        <header>
+            <h1>Host Management</h1>
+            <div class="header-controls">
+                <div class="search-box">
+                    <input type="text" id="hostSearch" placeholder="Search hosts...">
+                    <i class="fas fa-search"></i>
                 </div>
-                <div class="modal-charts">
-                    <canvas id="hostStatusChart"></canvas>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="usernameDisplay">User</span>
+                </div>
+            </div>
+        </header>
+        
+        <div class="filters">
+            <select id="statusFilter">
+                <option value="all">All Statuses</option>
+                <option value="0">Enabled</option>
+                <option value="1">Disabled</option>
+            </select>
+            <select id="groupFilter">
+                <option value="all">All Groups</option>
+                <!-- Groups will be populated dynamically -->
+            </select>
+        </div>
+        
+        <div class="hosts-grid" id="hostsGrid">
+            <!-- Hosts will be populated here -->
+            <div class="loading">Loading hosts...</div>
+        </div>
+        
+        <div id="hostModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modalTitle">Host Details</h2>
+                <div id="hostDetails">
+                    <!-- Host details will be populated here -->
+                </div>
+                <div class="host-charts">
+                    <div class="chart-container">
+                        <canvas id="cpuChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="memoryChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="js/zabbix-api.js"></script>
-    <script src="js/script.js"></script>
-    <script>
-        // 初始化主机页面
-        document.addEventListener('DOMContentLoaded', function() {
-            loadHostsData();
-            loadGroupsFilter();
-        });
-    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
 </html>
