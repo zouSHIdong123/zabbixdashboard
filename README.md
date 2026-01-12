@@ -1,0 +1,2 @@
+# zabbixdashboard
+zabbixdashboard
